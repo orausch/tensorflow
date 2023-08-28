@@ -1,5 +1,5 @@
 load("//tensorflow/core/platform:rules_cc.bzl", "cc_library")
-load("//tensorflow:tensorflow.bzl", "if_oss", "tf_cc_test")
+load("//tensorflow:tensorflow.bzl", "if_oss", "tf_cc_test", "tf_cc_binary")
 load("//tensorflow/core/profiler/builds:build_config.bzl", "tf_profiler_copts")
 
 package(
@@ -1062,4 +1062,50 @@ tf_cc_test(
         "@com_google_absl//absl/strings",
         "@com_google_googletest//:gtest_main",
     ],
+)
+
+tf_cc_binary(
+    name = "xplane_to_tools",
+    srcs = ["xplane_to_tools.cc"],
+    copts = tf_profiler_copts(),
+    deps = [
+        ":xplane_to_tools_data",
+        ":hlo_to_tools_data",
+        ":multi_xplanes_to_op_stats",
+        ":op_stats_to_input_pipeline_analysis",
+        ":op_stats_to_op_profile",
+        ":op_stats_to_overview_page",
+        ":op_stats_to_pod_viewer",
+        ":op_stats_to_tf_stats",
+        ":preprocess_single_host_xplane",
+        ":process_megascale_dcn",
+        ":repository",
+        ":tool_options",
+        ":xplane_to_dcn_collective_stats",
+        ":xplane_to_memory_profile",
+        ":xplane_to_op_stats",
+        ":xplane_to_tf_data_stats",
+        ":xplane_to_tf_functions",
+        ":xplane_to_tool_names",
+        ":xplane_to_trace_container",
+        "//tensorflow/core:lib",
+        "//tensorflow/core/profiler/convert/trace_viewer:trace_events_to_json",
+        "//tensorflow/core/profiler/protobuf:dcn_slack_analysis_proto_cc",
+        "//tensorflow/core/profiler/protobuf:hardware_types_proto_cc",
+        "//tensorflow/core/profiler/protobuf:input_pipeline_proto_cc",
+        "//tensorflow/core/profiler/protobuf:kernel_stats_proto_cc",
+        "//tensorflow/core/profiler/protobuf:op_profile_proto_cc",
+        "//tensorflow/core/profiler/protobuf:op_stats_proto_cc",
+        "//tensorflow/core/profiler/protobuf:overview_page_proto_cc",
+        "//tensorflow/core/profiler/protobuf:tf_data_stats_proto_cc",
+        "//tensorflow/core/profiler/protobuf:tf_stats_proto_cc",
+        "//tensorflow/core/profiler/utils:hardware_type_utils",
+        "//tensorflow/core/profiler/utils:xplane_schema",
+        "//tensorflow/core/profiler/utils:xplane_utils",
+        "//tensorflow/tsl/profiler/convert:xplane_to_trace_events",
+        "//tensorflow/tsl/profiler/protobuf:xplane_proto_cc",
+        "@com_google_absl//absl/status",
+        "@com_google_absl//absl/strings",
+    ],
+    linkstatic=1
 )
