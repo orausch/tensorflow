@@ -85,7 +85,7 @@ SpecialArguments ConvertXStatsToTraceEventArguments(
   TraceEventArgumentsBuilder args(raw_args);
   SpecialArguments special_args;
   auto for_each_stat = [&special_args, &args](const XStatVisitor& stat) {
-    if (tsl::profiler::IsInternalStat(stat.Type())) return;
+    // if (tsl::profiler::IsInternalStat(stat.Type())) return;
     switch (stat.ValueCase()) {
       case XStat::kInt64Value:
         ConvertXStatToTraceEventArgument(stat, stat.IntValue(), special_args,
